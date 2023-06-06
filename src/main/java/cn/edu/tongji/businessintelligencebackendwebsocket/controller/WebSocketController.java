@@ -62,9 +62,9 @@ public class WebSocketController {
                 Long endTime = System.currentTimeMillis();
                 logSql(sql, (double)(endTime-startTime)/1000);
                 result.put("news",news);
-                sql = String.format("select t_news.news_id,t_news.headline,t_news.content,start_ts from t_news join (select * from t_news_browse_record where user_id = 12000 and start_ts>%s order by start_ts desc limit 10)as j on j.news_id=t_news.news_id",start);
+                sql = String.format("select t_news.news_id,t_news.headline,t_news.content,start_ts from t_news join (select * from t_news_browse_record where user_id = %s and start_ts>%s order by start_ts desc limit 10)as j on j.news_id=t_news.news_id",userid,start);
                 startTime = System.currentTimeMillis();
-                List<Map<String,Object>> recentClick = newsRepository.getRecentClick(start);
+                List<Map<String,Object>> recentClick = newsRepository.getRecentClick(userid,start);
                 endTime = System.currentTimeMillis();
                 logSql(sql,(double)(endTime-startTime)/1000);
                 if(recentClick.size() != 0){
